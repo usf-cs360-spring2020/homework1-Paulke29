@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+</script>
 <html>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- TODO: Change title -->
-    <title>Paul's 360 Website</title>
+    <title>Paul's 360 Personal Website</title>
 
     <!-- Load Bulma from CDN (consider saving it to repository instead) -->
     <!-- https://bulma.io/ -->
@@ -25,7 +26,7 @@
         <!-- TODO: Change title -->
         <h1 class="title">Paul's Website</h1>
         <!-- TODO: Change subtitle -->
-        <h2 class="subtitle">Website Subtitle</h2>
+        <h2 class="subtitle">HomeWork</h2>
       </div>
     </div>
   </section>
@@ -169,34 +170,29 @@ You can even put code into these pre blocks.
         <p>For now this is just a demo. The buttons below do not go anywhere, but can be easily changed to link to different visualization pages.</p>
 
         <p class="buttons">
-          <a class="button is-large is-success" href="#">
+          <button class="button is-large is-success" href="#" id ="line" onclick="document.getElementById('images').src='360Image1.png'">
             <span class="icon is-medium">
               <i class="fas fa-chart-line"></i>
             </span>
             <span>Line Chart</span>
-          </a>
+          </button>
 
-          <a class="button is-large is-primary" href="#">
+          <button class="button is-large is-primary" href="#" id ="Area" onclick="document.getElementById('images').src='360Image2.png'">
             <span class="icon is-medium">
               <i class="fas fa-chart-area"></i>
             </span>
             <span>Area Chart</span>
-          </a>
+          </button>
 
-          <a class="button is-large is-info" href="#">
+          <button class="button is-large is-info" href="#" id="Bar" onclick="document.getElementById('images').src='360Image3.png'">
             <span class="icon is-medium">
               <i class="fas fa-chart-bar"></i>
             </span>
             <span>Bar Chart</span>
-          </a>
-
-          <a class="button is-large is-link" href="#">
-            <span class="icon is-medium">
-              <i class="fas fa-chart-pie"></i>
-            </span>
-            <span>Pie Chart</span>
-          </a>
+          </button>
         </p>
+
+        <img border="0" alt="XXX" src="360Image2.png" id="images"/>
 
         <!-- https://github.com/vega/vega-embed#basic-example -->
         <p>It is possible to embed some visualizations directly here too. Here is <a href="https://github.com/vega/vega-embed#basic-example">an example</a> using Vega-Lite:</p>
