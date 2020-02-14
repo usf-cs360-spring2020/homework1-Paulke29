@@ -1,6 +1,6 @@
 // location of data file
 let csv = 'Air_Traffic_Passenger_Statistics.csv';
-console.log("CSV:"+csv);
+// console.log("CSV:"+csv);
 
 // configuration of svg/plot area
 let config = {
@@ -20,8 +20,8 @@ config.plot.width = config.svg.width - config.margin.left - config.margin.right;
 config.plot.height = config.svg.height - config.margin.top - config.margin.bottom;
 
 // setup svg
-let svg = d3.select('body').select('svg');
-console.log("Svg:"+svg);
+let svg = d3.select('body').select("#Chart1");
+// console.log("Svg:"+svg);
 svg.attr('width', config.svg.width);
 svg.attr('height', config.svg.height);
 
@@ -79,65 +79,8 @@ function convertRow(row,index){
   }
   return out;
 }
-function drawLineChart(data){
-  // filter dataset to smaller size
-  data = data.filter(function(row) {
-      return row['Operating Airline'] === 'United Airlines'
-  });
-  // console.log("Data:"+JSON.stringify(data));
-
-  let numberCount = data.map(row => row['Passenger Count']);
-  // console.log("Passenger Count:"+numberCount);
-
-  let dates = data.map(row => row['Activity Period']);
-
-  let min = d3.min(dates);
-  let max = d3.max(dates);
-  console.log("min:"+min+"max:"+max);
-  let Pmin = d3.min(numberCount);
-  let Pmax = d3.max(numberCount);
-  console.log("Pmin:"+Pmin+"Pmax:"+Pmax);
-
-  let axis = {};
-  var xscale = d3.scaleTime().domain([min, max]).range([0, 600]);
-  var yscale = d3.scaleLinear().domain([0, Pmax]).range([400,20]);
-  axis.x = d3.axisBottom(xscale).scale(xscale);
-  axis.y = d3.axisLeft(yscale).scale(yscale);
-  // draw the x and y axis
-  let gx = svg.append("g");
-  gx.attr("id", "x-axis");
-  gx.attr("class", "axis");
-  gx.attr("transform", translate(config.plot.x, config.plot.y + config.plot.height));
-  gx.call(axis.x);
-
-  let gy = svg.append("g");
-  gy.attr("id", "y-axis");
-  gy.attr("class", "axis");
-  gy.attr("transform", translate(config.plot.x, config.plot.y));
-  gy.call(axis.y);
 
 
-  // Add the line
-  svg.append("path")
-    .datum(data)
-    .attr("fill", "none")
-    .attr("stroke", "#69b3a4")
-    .attr("stroke-width", 1.5)
-    .attr("d", d3.line()
-      .x(function(d) { return d['Activity Period']})
-      .y(function(d) { return d['Passenger Count']})
-      )
-  // Add the points
-  svg.append("g")
-     .selectAll("dot")
-     .data(data)
-     .enter()
-      .append("circle")
-      .attr("cx", function(d) { return x(d['Activity Period'])})
-      .attr("cy", function(d) { return y(d['Passenger Count'])})
-      .attr("r", 5)
-      .attr("fill", "#69b3a2")
-}
 function drawChart(data) {
 
   data = data.filter(function(row) {
@@ -148,7 +91,7 @@ function drawChart(data) {
     return a['Activity Period']-b['Activity Period']
   });
   // data.sort();
-  console.log("Data:"+JSON.stringify(data));
+   // console.log("Data:"+JSON.stringify(data));
 
   let numberCount = data.map(row => row['Passenger Count']);
   // console.log("Sort Number: "+numberCount)
@@ -157,8 +100,8 @@ function drawChart(data) {
   let dates = data.map(row => row['Activity Period']);
   // var date = [];
   // date.push(dates.map(dates))
-  console.log("date length: "+dates.length);
-  console.log("Sort Date: "+ typeof(date));
+  // console.log("date length: "+dates.length);
+  // console.log("Sort Date: "+ typeof(date));
   let min = d3.min(dates);
   let max = d3.max(dates);
   // console.log("Char min:"+min+"max:"+max);
@@ -188,7 +131,7 @@ function drawChart(data) {
          .attr("transform", translate(config.plot.x, config.plot.y))
          .attr("d", d3.line()
             .x(function(d) {
-              console.log("Activity Period: "+typeof(d['Activity Period']))
+              // console.log("Activity Period: "+typeof(d['Activity Period']))
               // return x(d['Activity Period'])})
               return x(d['Activity Period'])})
             .y(function(d) {
