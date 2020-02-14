@@ -33,7 +33,7 @@ let parseData= d3.timeParse('%m/%Y');
 // format each row;
 function convertRow(row,index){
   let out ={};
-  out.values =[];
+  // out.values =[];
   for (let col in row) {
     switch (col) {
       // these are the text columns that do not need conversion
@@ -41,10 +41,10 @@ function convertRow(row,index){
         out[col] = row[col];
         // console.log("Operating Airline:"+out[col]);
         break;
-      case 'GEO Summary':
-        out[col] = row[col];
-        // console.log("GEO Summary:"+out[col]);
-        break;
+      // case 'GEO Summary':
+      //   out[col] = row[col];
+      //   // console.log("GEO Summary:"+out[col]);
+      //   break;
 
       // these are the columns that need to be converted to integer
       case 'Passenger Count':
@@ -62,18 +62,18 @@ function convertRow(row,index){
         // console.log("Activity Period:"+out[col]);
         break;
       // these should be our time series values
-      default:
-        // convert column name into the date
-        var date = parseRowData(col);
-        // console.log("date1:"+date);
-        // convert the value to float
-        var value = parseFloat(row[col]);
-
-        // add them to our values
-        out.values.push({
-          'date': date,
-          'value': value
-        });
+      // default:
+      //   // convert column name into the date
+      //   var date = parseRowData(col);
+      //   // console.log("date1:"+date);
+      //   // convert the value to float
+      //   var value = parseFloat(row[col]);
+      //
+      //   // add them to our values
+      //   out.values.push({
+      //     'date': date,
+      //     'value': value
+      //   });
         // console.log("out[]"+out[0]+":"+out[1]);
     }
   }
@@ -139,47 +139,63 @@ function drawLineChart(data){
       .attr("fill", "#69b3a2")
 }
 function drawChart(data) {
-  // filter dataset to smaller size
+
   data = data.filter(function(row) {
       return row['Operating Airline'] === 'United Airlines'
   });
-  // console.log("Data:"+JSON.stringify(data));
+
+ data.sort(function(a,b){
+    return a['Activity Period']-b['Activity Period']
+  });
+  // data.sort();
+  console.log("Data:"+JSON.stringify(data));
 
   let numberCount = data.map(row => row['Passenger Count']);
+  // console.log("Sort Number: "+numberCount)
   // console.log("Passenger Count:"+numberCount);
 
   let dates = data.map(row => row['Activity Period']);
+  // var date = [];
+  // date.push(dates.map(dates))
+  console.log("date length: "+dates.length);
+  console.log("Sort Date: "+ typeof(date));
   let min = d3.min(dates);
   let max = d3.max(dates);
-  console.log("Char min:"+min+"max:"+max);
+  // console.log("Char min:"+min+"max:"+max);
   let Pmin = d3.min(numberCount);
   let Pmax = d3.max(numberCount);
-  console.log("Chart Pmin:"+Pmin+"Pmax:"+Pmax);
-    // // Add X axis --> it is a date format
+  // console.log("Chart Pmin:"+Pmin+"Pmax:"+Pmax);
   var x = d3.scaleTime()
       .domain(d3.extent(data, function(d) { return d['Activity Period']; }))
       .range([ 0, config.svg.width]);
     svg.append("g")
-      .attr("transform", translate(config.plot.x-100, config.plot.y+400))
+      .attr("transform",translate(config.plot.x, config.plot.y + config.plot.height))
        .call(d3.axisBottom(x));
     // Add Y axis
     var y = d3.scaleLinear()
       .domain( [0, Pmax])
       .range([config.svg.height, 0 ]);
     svg.append("g")
+       .attr("transform", translate(config.plot.x, config.plot.y))
        .call(d3.axisLeft(y));
 
-       //  // Add the line
-       // svg.append("path")
-       //   .datum(data)
-       //   .attr("fill", "none")
-       //   .attr("stroke", "#69b3a2")
-       //   .attr("stroke-width", 1.5)
-       //   .attr("d", d3.line()
-       //     .x(function(d) { return x(d['Activity Period'])})
-       //     .y(function(d) { return y(d['Passenger Count'])})
-       //     )
-    // Add the points
+        // Add  line
+       svg.append("path")
+         .datum(data)
+         .attr("fill", "none")
+         .attr("stroke", "#69b3a2")
+         .attr("stroke-width", 1.5)
+         .attr("transform", translate(config.plot.x, config.plot.y))
+         .attr("d", d3.line()
+            .x(function(d) {
+              console.log("Activity Period: "+typeof(d['Activity Period']))
+              // return x(d['Activity Period'])})
+              return x(d['Activity Period'])})
+            .y(function(d) {
+              // console.log("Passenger Count: "+y(d['Passenger Count']))
+              return y(d['Passenger Count'])})
+           )
+    // Add  points
     svg
       .append("g")
       .selectAll("dot")
@@ -189,6 +205,7 @@ function drawChart(data) {
         .attr("cx", function(d) { return x(d['Activity Period'])})
         .attr("cy", function(d) { return y(d['Passenger Count'])})
         .attr("r", 5)
+        .attr("transform", translate(config.plot.x, config.plot.y))
         .attr("fill", "#69b3a2")
 }
 
