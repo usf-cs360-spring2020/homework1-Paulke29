@@ -91,34 +91,35 @@ function drawBarChart(data) {
   // console.log("Char min:"+min+"max:"+max);
   let Pmin = d3.min(numberCount);
   let Pmax = d3.max(numberCount);
-  // console.log("Chart Pmin:"+Pmin+"Pmax:"+Pmax);
-  var x = d3.scaleBand()
+  // console.log("Chart Pmin:"+Pmin+"Pmax:"+Pmax)
+
+  // add y axis;
+  var y = d3.scaleBand()
   .range([ 0, 400 ])
   .domain(data.map(function(d) { return d['GEO Summary']; }))
   .padding(0.2);
   svg2.append("g")
-    .attr("transform",translate(config.plot.x, config.plot.y + config.plot.height+30))
-  .call(d3.axisBottom(x))
+    .attr("transform",translate(config.plot.x-100, config.plot.y +20))
+  .call(d3.axisLeft(y))
   .selectAll("text")
-    // .attr("transform", "translate(-10,0)rotate(-45)")
     .style("text-anchor", "end");
-// Add Y axis
-  var y = d3.scaleLinear()
-    .domain( [0, Pmax])
-    .range([config2.svg2.height, 0 ]);
+// Add x axis
+  var x = d3.scaleLinear()
+    .domain( [0, Pmax+10])
+    .range([ 0, 1000 ])
 svg2.append("g")
-.attr("transform",translate(config.plot.x, config.plot.y))
-  .call(d3.axisLeft(y));
+  .attr("transform",translate(config.plot.x-100, config.plot.y + config.plot.height))
+  .call(d3.axisBottom(x));
 
-    svg2.selectAll("mybar")
-     .data(data)
-     .enter()
-     .append("rect")
-       .attr("x", function(d) { return x(d['GEO Summary'])})
-       .attr("y", function(d) { return y(d['Passenger Count'])})
-       .attr("width", x.bandwidth())
-       .attr("transform", translate(config2.plot.x, config2.plot.y))
-       .attr("height",function(d) { return config2.svg2.height - y(d['Passenger Count']); })
-       .attr("fill", "#69b3a2")
+  svg2.selectAll("myRect")
+  .data(data)
+  .enter()
+  .append("rect")
+  .attr("x", x(0) )
+  .attr("y", function(d) { return y(d['GEO Summary']); })
+  .attr("width", function(d) { return x(d['Passenger Count']); })
+  .attr("height", y.bandwidth() )
+
+  .attr("fill", d3.color("steelblue"))
 
 }

@@ -41,10 +41,10 @@ function convertRow(row,index){
         out[col] = row[col];
         // console.log("Operating Airline:"+out[col]);
         break;
-      // case 'GEO Summary':
-      //   out[col] = row[col];
-      //   // console.log("GEO Summary:"+out[col]);
-      //   break;
+      case 'GEO Summary':
+        out[col] = row[col];
+        // console.log("GEO Summary:"+out[col]);
+        break;
 
       // these are the columns that need to be converted to integer
       case 'Passenger Count':
@@ -84,7 +84,7 @@ function convertRow(row,index){
 function drawChart(data) {
 
   data = data.filter(function(row) {
-      return row['Operating Airline'] === 'United Airlines'
+      return row['Operating Airline'] === 'United Airlines' && row['GEO Summary'] ==='Domestic'
   });
 
  data.sort(function(a,b){
