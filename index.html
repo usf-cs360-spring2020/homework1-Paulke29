@@ -140,8 +140,10 @@
         <h3 id="wrangling">Wrangling</h3>
 
         <p>The data source file is huge so first I sort the data in the Website and find the useful data by using filter.</p>
-        <p>Here is the partial of code that illustrate how I draw the Line Chart
+        <p>I make the linear chart, bar chart and area chart in Tableau. At the same time, I also create the chart based on the prototype by D3.js</p>
+        <p>Here is the partial of code which implement by D3.js illustrates how I use D3.js to draw the Line Chart:
         <pre>
+        // Add lines
         svg.append("path")
             .datum(data)
             .attr("fill", "none")
