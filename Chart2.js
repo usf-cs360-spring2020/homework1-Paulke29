@@ -111,7 +111,7 @@ svg2.append("g")
   .attr("transform",translate(config.plot.x-100, config.plot.y + config.plot.height))
   .call(d3.axisBottom(x));
 
-  svg2.selectAll("myRect")
+  svg2.selectAll("Rect")
   .data(data)
   .enter()
   .append("rect")

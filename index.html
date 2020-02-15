@@ -68,24 +68,16 @@
             </a>
 
             <div class="navbar-dropdown">
-              <a class="navbar-item">
+              <a class="navbar-item" href="#Line">
                 <span class="icon"><i class="fas fa-chart-line"></i></span>
                 <span>Line Chart</span>
-              </a>
-              <a class="navbar-item">
-                <span class="icon"><i class="fas fa-chart-area"></i></span>
-                <span>Area Chart</span>
               </a>
 
               <hr class="navbar-divider">
 
-              <a class="navbar-item">
+              <a class="navbar-item" href='#Bar2'>
                 <span class="icon"><i class="fas fa-chart-bar"></i></span>
                 <span>Bar Chart</span>
-              </a>
-              <a class="navbar-item">
-                <span class="icon"><i class="fas fa-chart-pie"></i></span>
-                <span>Pie Chart</span>
               </a>
             </div>
           </div>
@@ -115,78 +107,92 @@
       <div class="content">
         <h1 class="title">
           <!-- TODO: Change page title -->
-          Page Title
+          Air Traffic in San Francisco International Airport
         </h1>
         <p class="subtitle">
           <!-- TODO: Change page subtitle -->
-          Page Subtitle
+          United Airlines
         </p>
 
-        <p>This would be an excellent place to describe what this page is for, what to find in different sections, describe any motivation or theme behind your visualizations, and so on.</p>
+        <p>This page is going to illustrate about the the number of Passenger come and leave in San Francisco Aiport and will focus on United Airline Company</p>
 
-        <p>You should not use this template unless you intend to customize it. Make it your own. Keep in mind this simple template is over 300 lines! You can see other examples of websites using Bulma at their showcase: <a href="https://bulma.io/expo/">bulma.io/expo/</a>.</p>
+        <p>In the top of the page, you can see the navigatition bar which will take you to the section you want when you click</p>
 
         <h2 id="data">Data</h2>
-
-        <p>Include some detailed information about the dataset here. You should <a href="#">add a link</a> to the original dataset. You might also want to quote the license:</p>
-
         <blockquote>
           <p>
-            "This data is made available under the Public Domain Dedication and License v1.0 whose full text can be found at: <a href="http://www.opendatacommons.org/licenses/pddl/1.0/">www.opendatacommons.org/licenses/pddl/1.0/</a>"
+            "This data is made available under the DataSF.org and can be found at: <a href="https://data.sfgov.org/Transportation/Air-Traffic-Passenger-Statistics/rkru-6vcg">https://data.sfgov.org/Transportation/Air-Traffic-Passenger-Statistics/rkru-6vcg</a>"
           </p>
-          <cite>Put a citation here, possibly link to the dataset license information directly.</cite>
+          <!-- <cite>Put a citation here, possibly link to the dataset license information directly.</cite> -->
         </blockquote>
 
-        <p>In addition to including a link to the source and license, you should describe the data. You might want a list of some sort to enumerate the different types of columns:</p>
+        <p>Here is more information about datas:</p>
 
         <ol>
-          <li><strong>Column Name:</strong> Give a description of the column, including its type and possible range of values.</li>
+          <li><strong>Passenger Count:</strong> This column demonstrate the number of Passengr take airline in SFO</li>
 
-          <li><strong>Column Name:</strong> Give a description of the column, including its type and possible range of values.</li>
+          <li><strong>Activity Period:</strong> This column demostrate the timeline</li>
 
-          <li><strong>Column Name:</strong> Give a description of the column, including its type and possible range of values.</li>
+          <li><strong>GEO Summary:</strong> This column demostrate the demostic or international passenger</li>
 
-          <li><strong>Column Name:</strong> Give a description of the column, including its type and possible range of values.</li>
+          <li><strong>Operationg Company:</strong> This column demostrate the number of passenger take which airline company</li>
         </ol>
-
-        <p>This will of course differ depending on the assignment and data.</p>
-
         <h3 id="wrangling">Wrangling</h3>
 
-        <p>Perhaps you had to do some data wrangling to the original dataset to prepare it for visualization. This would be a great place to discuss some of that wrangling.
-
+        <p>The data source file is huge so first I sort the data in the Website and find the useful data by using filter.</p>
+        <p>Here is the partial of code that illustrate how I draw the Line Chart
         <pre>
-You can even put code into these pre blocks.
-  It will preserve whitespace.
-    That is helpful for formatted code.
+        svg.append("path")
+            .datum(data)
+            .attr("fill", "none")
+            .attr("stroke", "#69b3a2")
+            .attr("stroke-width", 1.5)
+            .attr("transform", translate(config.plot.x, config.plot.y))
+            .attr("d", d3.line()
+               .x(function(d) {
+                 // console.log("Activity Period: "+typeof(d['Activity Period']))
+                 // return x(d['Activity Period'])})
+                 return x(d['Activity Period'])})
+               .y(function(d) {
+                 // console.log("Passenger Count: "+y(d['Passenger Count']))
+                 return y(d['Passenger Count'])})
+              )
+        // Add  points
+       svg
+         .append("g")
+         .selectAll("dot")
+         .data(data)
+         .enter()
+         .append("circle")
+           .attr("cx", function(d) { return x(d['Activity Period'])})
+           .attr("cy", function(d) { return y(d['Passenger Count'])})
+           .attr("r", 5)
+           .attr("transform", translate(config.plot.x, config.plot.y))
+           .attr("fill", "#69b3a2")
         </pre>
 
-        <p>You can alternatively embed a Gist if you want. There is an "embed" button on <a href="https://gist.github.com/octocat/6cad326836d38bd3a7ae">the Gist page</a> and results in something like this:</p>
+        <!-- <p>You can alternatively embed a Gist if you want. There is an "embed" button on <a href="https://gist.github.com/octocat/6cad326836d38bd3a7ae">the Gist page</a> and results in something like this:</p>
 
-        <script src="https://gist.github.com/octocat/6cad326836d38bd3a7ae.js"></script>
+        <script src="https://gist.github.com/octocat/6cad326836d38bd3a7ae.js"></script> -->
 
         <h2 id="visualizations">Visualizations</h2>
 
-        <p>Ideally not everything would be on a single page like this example. Instead, you might want to put each section in its own webpage. You would need to carefully replicate the page template (with the header, navbar, and footer) and make the necessary updates. For example, you want the "About" navbar item to be considered active on an "About" web page.</p>
-
-        <p>For now this is just a demo. The buttons below do not go anywhere, but can be easily changed to link to different visualization pages.</p>
-
         <p class="buttons">
-          <button class="button is-large is-success" href="#" id ="line" onclick="document.getElementById('images').src='360Image1.png'">
+          <button class="button is-large is-success" href="#" id ="line" onclick="document.getElementById('images').src='LinearChart.png'">
             <span class="icon is-medium">
               <i class="fas fa-chart-line"></i>
             </span>
             <span>Line Chart</span>
           </button>
 
-          <button class="button is-large is-primary" href="#" id ="Area" onclick="document.getElementById('images').src='360Image2.png'">
+          <button class="button is-large is-primary" href="#" id ="Area" onclick="document.getElementById('images').src='360Image1.png'">
             <span class="icon is-medium">
               <i class="fas fa-chart-area"></i>
             </span>
             <span>Area Chart</span>
           </button>
 
-          <button class="button is-large is-info" href="#" id="Bar" onclick="document.getElementById('images').src='360Image3.png'">
+          <button class="button is-large is-info" href="#" id="Bar" onclick="document.getElementById('images').src='BarChar.png'">
             <span class="icon is-medium">
               <i class="fas fa-chart-bar"></i>
             </span>
@@ -194,32 +200,29 @@ You can even put code into these pre blocks.
           </button>
         </p>
 
-        <img border="0" alt="XXX" src="360Image2.png" id="images"/>
+        <img border="0" alt="XXX" src="LinearChart.png" id="images"/>
+
+        <div id="Line">
+          <p>This chart is made by D3.js and illustrate about the change of domesti passenger who takes United Airline from May 2018 to August 2019
         <svg id="Chart1"></svg>
         <script src="Chart1.js"></script>
+        </div>
+        <p></p>
+
+        <div id="Bar2">
+        <!-- <div id="Chart2"></div> -->
+        <p>This chat is made by D3.js and is comparing the difference between the number of domestic and international passenger who takes Unite Airlines in 2018 and 2019
         <div id="Chart2"></div>
         <script src="Chart2.js"></script>
-
-        <p>It is possible to embed some visualizations directly here too. Here is <a href="https://github.com/vega/vega-embed#basic-example">an example</a> using Vega-Lite:</p>
+        </div>
+        <!-- <p>It is possible to embed some visualizations directly here too. Here is <a href="https://github.com/vega/vega-embed#basic-example">an example</a> using Vega-Lite:</p>
 
         <script src="https://cdn.jsdelivr.net/npm/vega@5.9.0"></script>
         <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.0.2"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.2.1"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.2.1"></script> -->
 
-        <div id="vis"></div>
-
-        <script type="text/javascript">
-        var spec = "https://raw.githubusercontent.com/vega/vega/master/docs/examples/bar-chart.vg.json";
-        vegaEmbed('#vis', spec).then(function(result) {
-          // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
-        }).catch(console.error);
-        </script>
-
-        <h4>Instructions</h4>
-
-        <p>You will likely need to include instructions on how to interpet and use the visualization. In the case above, if you click the three dots <i class="fas fa-ellipsis-h has-text-grey-light	"></i> above it will open a menu where you can either save the visualization to a SVG or PNG, or alternatively open it up in the online Vega Editor.</p>
-
-        <h4>Discussion</h4>
+        <!-- <div id="vis"></div> -->
+        <!-- <h4>Discussion</h4>
 
         <p>You may also need other sections, like a discussion section, per-visualization section on data wrangling, and others. Because of the extra content and code visualizations take, it might be worthwhile to break up your pages into one home page and then one page per visualization.</p>
 
@@ -232,8 +235,14 @@ You can even put code into these pre blocks.
 
         <p class="is-6">
           <em>Thanks to Person Name for their suggestion to do something with the visualization.</em>
-        </p>
-
+        </p> -->
+        <h2>Write Ups</h2>
+        <p>
+          The original source is from DataSF.org and the size of file is 47 KB.
+          I believe that I did all the A-level requirement: 3 Tableau prototypes and implement 2 D3 chart base on the prototypes.
+          In the Line chart, the change of the number of domestic passenger is encoded by a line, so the difference between two points represents how big of the change between two month
+          In the bar chart, the number of domestic and international passenger count is encoded by the length of the bar, so longer bars represent higher passenger count.
+          In the area chart, different color represent different airline company and the biggest area represent the biggest number of passenger.
         <h2 id="grade">Grade</h2>
 
         <!-- TODO: Remove custom style if no longer needed -->
@@ -290,22 +299,23 @@ You can even put code into these pre blocks.
         <article class="media">
           <!-- TODO: Replace with profile photo -->
           <figure class="media-left">
-            <p class="image is-128x128"><img class="is-rounded" src="profile.png"></p>
+            <p class="image is-128x128"><img class="is-rounded" src="sef.png"></p>
           </figure>
 
           <div class="media-content">
             <div class="content">
               <!-- TODO: Replace with contact information -->
               <p>
-                <strong>Full Name</strong><br/>
-                CS Major, <a href="https://www.usfca.edu/">University of San Francisco</a><br/>
-                <em>Expected Graduation: 20??</em><br/>
-                <i class="fas fa-envelope"></i> <a href="mailto:username@dons.usfca.edu">username@dons.usfca.edu</a>
+                <strong>Paul Ke</strong><br/>
+                CS and Marketing Major, <a href="https://www.usfca.edu/">University of San Francisco</a><br/>
+                <em>Expected Graduation: May, 2020</em><br/>
+                <i class="fas fa-envelope"></i> <a href="mailto:yke7@dons.usfca.edu">yke7@dons.usfca.edu</a>
               </p>
 
               <!-- TODO: Replace with brief biography -->
               <p>
-                Here is a brief bio about yourself. A good rule of thumb is to include at least one technical tidbit (favorite area or course within computer science), and one fun tidbit (such as loving dogs).
+                To prepare for my career, I am pursuing my education degree from the University Of San Francisco and majoring in Computer Science and Marketing. I know theoretical applications and have individual ability to help develop new technology to solve many of the problems associated with the computer industry. For example, I have been completed a search engine project by using the Java program language.
+                I also have an internship as a software engineer. During this internship, I learned how to use react framework and use JavaScript to solve web applcations problems.
               </p>
 
               <!-- TODO: Replace or remove tags -->
@@ -314,7 +324,7 @@ You can even put code into these pre blocks.
 
               <div class="tags">
                 <span class="tag">Python</span>
-                <span class="tag">C</span>
+                <!-- <span class="tag">C</span> -->
                 <span class="tag">Java</span>
                 <span class="tag">JavaScript</span>
                 <span class="tag">HTML</span>
@@ -344,7 +354,7 @@ You can even put code into these pre blocks.
 
       <p>
         <!-- TODO: Change to link to your Github repository -->
-        <a href="https://github.com/usf-cs360-spring2020/template-bulma" class="button is-small" style="padding-left: 1em; padding-right: 1em;">
+        <a href="https://github.com/usf-cs360-spring2020/homework1-Paulke29.git" class="button is-small" style="padding-left: 1em; padding-right: 1em;">
           <i class="fab fa-github-alt"></i>&nbsp;<strong>Github</strong>
         </a>
 
